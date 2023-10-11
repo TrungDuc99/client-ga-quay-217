@@ -21,7 +21,6 @@ const Pizza = ({ pizza }) => {
     setModal(false);
   };
 
-  console.log(pizza);
   return (
     <div className="group py-2  x1:py-4 x1:px-2 rounded-x1">
       <Image
