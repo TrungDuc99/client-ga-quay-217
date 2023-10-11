@@ -15,6 +15,9 @@ const modalStyle = {
 const Pizza = ({ pizza }) => {
   const [modal, setModal] = useState(false);
   const openModal = () => {
+    console.log("====================================");
+    console.log("asdasd");
+    console.log("====================================");
     setModal(true);
   };
   const closeModal = () => {
@@ -24,9 +27,11 @@ const Pizza = ({ pizza }) => {
   return (
     <div className="group py-2  x1:py-4 x1:px-2 rounded-x1">
       <Image
+        onClick={openModal}
         className="lg:group-hover:translate-y-3 transition-all duration-300 mb-8 cursor-pointer"
         width={270}
         height={270}
+        alt=""
         src={pizza.image}
       />
       <div>
@@ -47,7 +52,10 @@ const Pizza = ({ pizza }) => {
         >
           Chose
         </button>
-        <button className="lg:hidden btn btn-sm gradient text-sm px-3">
+        <button
+          onClick={openModal}
+          className="lg:hidden btn-sm gradient text-sm px-3"
+        >
           starts at {pizza.priceSm}
         </button>
       </div>
