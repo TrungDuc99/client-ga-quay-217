@@ -70,7 +70,7 @@ const Pizza = ({ pizza }) => {
             onClick={closeModal}
             className="absolute z-30 right-2 top-2 hover:scale-110 duration-200 cursor-pointer"
           >
-            <IoCloseOutline className="text-4x1 text-orange" />
+            <IoCloseOutline className="text-4xl text-orange" />
           </div>
           <PizzaDetails pizza={pizza} modal={modal} setModal={setModal} />
         </Modal>

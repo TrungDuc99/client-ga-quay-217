@@ -8,7 +8,7 @@ import ToppingPrice from "./Topping";
 import Topping from "./Topping";
 import { CartContext } from "../context/CartContext";
 
-const PizzaDetails = ({ pizza }) => {
+const PizzaDetails = ({ pizza, setModal }) => {
   const { addToCart } = useContext(CartContext);
   const [size, setSize] = useState("small");
   const [crust, setCrust] = useState("traditional");
@@ -101,6 +101,7 @@ const PizzaDetails = ({ pizza }) => {
                 size,
                 crust
               );
+              setModal(false);
             }}
             className="btn btn-lg gradient w-full flex justify-center gap-x-2"
           >

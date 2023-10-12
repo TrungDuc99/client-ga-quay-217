@@ -11,7 +11,7 @@ const modalStyle = {
 };
 Modal.setAppElement("body");
 const CartBottom = () => {
-  const { setIsOpen, cart } = useContext(CartContext);
+  const { setIsOpen, cart, cartTotal } = useContext(CartContext);
   const [modal, setModal] = useState(false);
   const openModal = () => {
     setModal(true);
@@ -26,8 +26,8 @@ const CartBottom = () => {
         <div className="px-6 py-3 lg:py-6 mt-auto">
           {/** total price */}
           <div className="flex items-center justify-between m-6 text-lg font-semibold font-robotoCondensed">
-            <div>Total:</div>
-            <div>$320</div>
+            <div>Tổng tiền:</div>
+            <div>{parseFloat(cartTotal).toFixed(2)}vnđ</div>
           </div>
           {/** btn */}
           <div className="flex flex-col gap-y-3">
@@ -50,7 +50,7 @@ const CartBottom = () => {
       {modal && (
         <Modal
           className={
-            "bg-white w-full h-full lg:max-w-[900px] lg:max-h-[600px] lg:rounded-[30px] lg:fixed lg:top-[50%] "
+            "bg-white w-full h-full lg:max-w-[900px] lg:max-h-[600px] lg:rounded-[30px] lg:fixed lg:top-[50%] lg:left-[50%] lg:translate-x-[-50%]  lg:translate-y-[-50%] outline-none "
           }
           style={modalStyle}
           isOpen={modal}
@@ -64,7 +64,7 @@ const CartBottom = () => {
           >
             <IoCloseOutline className="text-4xl text-orange" />
           </div>
-          <CheckoutDetails />
+          <CheckoutDetails setModal={setModal} />
         </Modal>
       )}
     </>

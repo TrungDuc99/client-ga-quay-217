@@ -1,5 +1,5 @@
 "use client";
-import React, { createContext, useState } from "react";
+import React, { createContext, useEffect, useState } from "react";
 // cart context
 
 export const CartContext = createContext();
@@ -7,6 +7,22 @@ export const CartContext = createContext();
 const CartProvider = ({ children }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [cart, setCart] = useState([]);
+  const [cartTotal, setCartTotal] = useState(0);
+  const [itemAmount, setItemAmount] = useState(0);
+
+  useEffect(() => {
+    const amount = cart.reduce((a, c) => {
+      return a + c.amount;
+    }, 0);
+    setItemAmount(amount);
+  });
+  useEffect(() => {
+    const price = cart.reduce((a, c) => {
+      return a + Number(c.price) * c.amount;
+    }, 0);
+    setCartTotal(price);
+  }, [cart]);
+
   const addToCart = (
     id,
     image,
@@ -16,46 +32,7 @@ const CartProvider = ({ children }) => {
     size,
     crust
   ) => {
-    const myData = [
-      {
-        itemIndex: 1,
-        itemFmt: 2,
-        itemFmtName: "Call To Order",
-        guid: "d66af412-00a0-4c49-b8b5-abaefb79fed0",
-        maxCt: 1,
-      },
-      {
-        itemIndex: 2,
-        itemFmt: 6,
-        itemFmtName: "Title/Discussion/Motion",
-        guid: "9f7b9d34-3fcb-42c7-866e-a56f71a8aa4f",
-        maxCt: 0,
-      },
-      {
-        itemIndex: 4,
-        itemFmt: 6,
-        itemFmtName: "Title/Discussion/Motion",
-        guid: "406bea5e-1cb0-4d90-96e9-9b80b64ff8ba",
-        maxCt: 0,
-      },
-      {
-        itemIndex: 5,
-        itemFmt: 6,
-        itemFmtName: "Title/Discussion/Motion",
-        guid: "ad9aacda-5100-4eef-9ead-c61e1ec0c285",
-        maxCt: 0,
-      },
-      {
-        itemIndex: 7,
-        itemFmt: 3,
-        itemFmtName: "Roll Call",
-        guid: "1715f7a3-066d-4787-8233-a36df2a729a9",
-        maxCt: 1,
-      },
-    ];
-
     additionalTopping.sort((a, b) => a.name.localeCompare(b[name]));
-
     const newItem = {
       id,
       image,
@@ -66,10 +43,72 @@ const CartProvider = ({ children }) => {
       crust,
       amount: 1,
     };
-    setCart([...cart, newItem]);
+
+    const cartItemIndex = cart.findIndex(
+      (item) =>
+        item.id === id &&
+        item.price === price &&
+        item.size === size &&
+        JSON.stringify(item.additionalTopping) ===
+          JSON.stringify(additionalTopping) &&
+        item.crust === crust
+    );
+    if (cartItemIndex === -1) {
+      setCart([...cart, newItem]);
+    } else {
+      const newCart = [...cart];
+      newCart[cartItemIndex].amount += 1;
+      setCart(newCart);
+    }
+
+    setIsOpen(true);
+  };
+  const removeItem = (id, price, crust) => {
+    const itemIndex = cart.findIndex(
+      (item) => item.id === id && item.price === price && item.crust === crust
+    );
+    if (itemIndex !== -1) {
+      const newCart = [...cart];
+      newCart.splice(itemIndex, 1);
+      setCart(newCart);
+    }
+  };
+  const increaseAmount = (id, price) => {
+    const itemIndex = cart.findIndex(
+      (item) => item.id === id && item.price === price
+    );
+    if (itemIndex !== -1) {
+      const newCart = [...cart];
+      (newCart[itemIndex].amount += 1), setCart(newCart);
+    }
+  };
+  const decreaseAmount = (id, price) => {
+    const itemIndex = cart.findIndex(
+      (item) => item.id === id && item.price === price
+    );
+    if (itemIndex !== -1) {
+      const newCart = [...cart];
+      if (newCart[itemIndex].amount > 1) {
+        newCart[itemIndex].amount -= 1;
+      }
+      setCart(newCart);
+    }
   };
   return (
-    <CartContext.Provider value={{ isOpen, setIsOpen, addToCart, cart }}>
+    <CartContext.Provider
+      value={{
+        isOpen,
+        setIsOpen,
+        addToCart,
+        cart,
+        setCart,
+        removeItem,
+        increaseAmount,
+        decreaseAmount,
+        itemAmount,
+        cartTotal,
+      }}
+    >
       {children}
     </CartContext.Provider>
   );
