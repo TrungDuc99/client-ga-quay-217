@@ -5,7 +5,7 @@ import Image from "next/image";
 import { IoMdCheckmark } from "react-icons/io";
 
 const Topping = ({ topping, additionalTopping, setAdditionalTopping }) => {
-  const [isChecked, setIsChecked] = useState(true);
+  const [isChecked, setIsChecked] = useState(false);
   const handleCheckbox = () => {
     setIsChecked(!isChecked);
   };

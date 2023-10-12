@@ -15,9 +15,6 @@ const modalStyle = {
 const Pizza = ({ pizza }) => {
   const [modal, setModal] = useState(false);
   const openModal = () => {
-    console.log("====================================");
-    console.log("asdasd");
-    console.log("====================================");
     setModal(true);
   };
   const closeModal = () => {
@@ -54,7 +51,7 @@ const Pizza = ({ pizza }) => {
         </button>
         <button
           onClick={openModal}
-          className="lg:hidden btn-sm gradient text-sm px-3"
+          className="lg:hidden btn-sm rounded-lg gradient text-sm px-3"
         >
           starts at {pizza.priceSm}
         </button>

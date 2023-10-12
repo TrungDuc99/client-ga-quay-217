@@ -85,12 +85,12 @@ const Banner = () => {
             <MouseParallaxChild
               factorX={0.6}
               factorY={0.6}
-              className="absolute top-80 -left-40 hidden xl:flex"
+              className="absolute top-80 -left-24 hidden xl:flex"
             >
               <Image
-                src={"/chilli-1.png"}
-                width={160}
-                height={84}
+                src={"/garlic-1.png"}
+                width={84}
+                height={72}
                 alt=""
                 priority={1}
               />
